@@ -1,0 +1,295 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: url("../img/bg.jpg");
+}
+
+
+.wrapper {
+  width: 75%;
+  height: 80%;
+  background: wheat;
+  border-radius: 10%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.content {
+  flex: 0.5;
+  text-align: center;
+}
+
+.TnsScoBoard {
+  flex: 0.5;
+  text-align: center;
+  padding-top: 1px;
+  margin-bottom: 200px;
+}
+
+.Buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+.Button {
+  background-color: #f0f0f0;
+  padding: 20px 30px;
+  color: #333;
+  text-decoration: none;
+  border-radius: 30px;
+  white-space: nowrap;
+  font-size: 1.5rem;
+}
+
+.Button:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+
+.tennis-img {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.tennis-img img {
+  height: 90%;
+  max-width: 100%;
+  border-radius: 20%;
+}
+
+
+/*NewMatch*/
+
+/*Header*/
+.header{
+  display: flex;
+  background-color: burlywood;
+  padding-top:5px;
+}
+
+.HomeIcon{
+  padding-top:5px;
+  padding-left:10px;
+}
+
+.TextAboutPage{
+  padding-top:10px;
+  padding-left:600px;
+  font-size: 30px;
+  color: snow;
+}
+
+.ListIcon{
+  padding-top:3px;
+  padding-left:700px;
+}
+
+.PlusIcon{
+  padding-top:3px;
+  padding-left: 10px;
+}
+
+/*Body*/
+
+.newMatchBody{
+  background-color: bisque;
+}
+
+.mainNewMatch{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 100px 0;
+}
+
+.FirstPlayer, .SecondPlayer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.FirstPlayer input, .SecondPlayer input {
+  width: 400px;
+  height: 150px;
+  border-radius: 40px;
+  padding: 10px;
+  border: 2px solid #333;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.FirstPlayer input:hover , .SecondPlayer input:hover{
+  background-color: greenyellow;
+}
+
+
+.FirstPlayer{
+  padding-left:100px;
+  padding-bottom:300px;
+}
+
+.SecondPlayer{
+  padding-right:50px;
+  padding-top:300px;
+}
+
+.Start {
+  padding-top:460px;
+  padding-right: 100px;
+}
+
+.Start button {
+  width: 200px;
+  height: 50px;
+  border-radius: 25px;
+  font-size: 1.5rem;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.Start button:hover {
+  background-color: greenyellow;
+  transform: scale(1.1);
+}
+
+
+/*All Matches and some Match.jsp styles*/
+
+.content-table{
+  border-collapse: collapse;
+  margin:50px 100px;
+  font-size: 1.2em;
+  width: 90%;
+  height: 70vh;
+  min-width: 400px;
+}
+
+.content-table thead tr{
+  background-color: #009879;
+  color:#ffffff;
+  text-align: left;
+  font-weight: bold;
+}
+
+.content-table th,
+.content-table td{
+  padding:20px 15px;
+}
+
+.content-table tbody tr{
+  border-bottom: 1px solid #dddddd;
+}
+
+.content-table tbody tr:nth-of-type(even){
+  background-color: #f3f3f3;
+}
+
+.content-table tbody tr:last-of-type{
+  border-bottom: 2px solid #009879;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.pagination a {
+  color: #009879;
+  padding: 8px 16px;
+  text-decoration: none;
+  margin: 0 4px;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.pagination a:hover {
+  background-color: #009879;
+  color: #ffffff;
+}
+
+/*Match*/
+
+.mainPlayingMatch{
+  width: 100%;
+  height: 100%;
+  background-image: url("../img/PlayingMatchBg.jpg");
+}
+
+.wrapperOfTable {
+  width: 70%;
+  height: 70%;
+  margin: 80px auto;
+  padding: 0 20px;
+  background-color: aliceblue;
+  border-radius: 50px;
+}
+
+.tableOfMatch{
+  border-collapse: collapse;
+  margin:50px 100px;
+  font-size: 1.2em;
+  width: 90%;
+  height: 70vh;
+  min-width: 400px;
+}
+
+.tableOfMatch thead tr{
+  background-color: #ffa05e;
+  color:#ffffff;
+  text-align: left;
+  font-weight: bold;
+}
+
+.ButtonsForPlayers {
+  text-align: center;
+}
+
+.buttonForPoint {
+  width: 150px;
+  height: 100px;
+  border-radius: 25%;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.buttonForPoint:hover {
+  background-color: #ffa05e;
+  transform: scale(1.1);
+}
+/* Winner*/
+
+.mainWinnerPage{
+  width: 100%;
+  height: 100%;
+  background-image: url("../img/winner.jpg");
+}
+
+.WinnerName{
+  text-align: center;
+  font-size: large;
+}
