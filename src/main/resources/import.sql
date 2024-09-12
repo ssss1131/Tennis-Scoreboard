@@ -1,0 +1,28 @@
+INSERT INTO Players (name) VALUES ('Djokovich');
+INSERT INTO Players (name) VALUES ('Nadal');
+INSERT INTO Players (name) VALUES ('Federer');
+INSERT INTO Players (name) VALUES ('Murray');
+INSERT INTO Players (name) VALUES ('Thiem');
+INSERT INTO Players (name) VALUES ('Zverev');
+INSERT INTO Players (name) VALUES ('Tsitsipas');
+INSERT INTO Players (name) VALUES ('Medvedev');
+INSERT INTO Players (name) VALUES ('Rublev');
+INSERT INTO Players (name) VALUES ('Berrettini');
+
+INSERT INTO Matches (player1, player2, winner) VALUES (1, 10, 10);
+INSERT INTO Matches (player1, player2, winner) VALUES (2, 9, 2);
+INSERT INTO Matches (player1, player2, winner) VALUES (3, 8, 8);
+INSERT INTO Matches (player1, player2, winner) VALUES (4, 7, 4);
+INSERT INTO Matches (player1, player2, winner) VALUES (5, 6, 5);
+INSERT INTO Matches (player1, player2, winner) VALUES (1, 9, 9);
+INSERT INTO Matches (player1, player2, winner) VALUES (2, 8, 8);
+INSERT INTO Matches (player1, player2, winner) VALUES (3, 7, 3);
+INSERT INTO Matches (player1, player2, winner) VALUES (4, 6, 6);
+INSERT INTO Matches (player1, player2, winner) VALUES (5, 10, 10);
+INSERT INTO Matches (player1, player2, winner) VALUES (6, 10, 6);
+INSERT INTO Matches (player1, player2, winner) VALUES (7, 9, 7);
+INSERT INTO Matches (player1, player2, winner) VALUES (1, 8, 1);
+INSERT INTO Matches (player1, player2, winner) VALUES (2, 7, 7);
+INSERT INTO Matches (player1, player2, winner) VALUES (3, 6, 3);
+INSERT INTO Matches (player1, player2, winner) VALUES (4, 5, 5);
+INSERT INTO Matches (player1, player2, winner) VALUES (9, 10, 10);
