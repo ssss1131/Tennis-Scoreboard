@@ -1,13 +1,24 @@
 package com.ssss.tennisscoreboard.service;
 
-import com.ssss.tennisscoreboard.dto.TennisDeuceScore;
-import com.ssss.tennisscoreboard.dto.TennisScore;
+import com.ssss.tennisscoreboard.dto.PlayingMatchInfo;
+import com.ssss.tennisscoreboard.dto.some.TennisDeuceScore;
+import com.ssss.tennisscoreboard.dto.some.TennisScore;
 
 public class TennisScoreCalculatorService {
-    //TODO разделить на методы
-    //TODO убрать магические цифры
 
-    public void calculate(TennisScore scoredPlayerScore, TennisScore opponentScore) {
+    public void calculate(PlayingMatchInfo info) {
+        //TODO разделить на методы
+        //TODO убрать магические цифры
+        TennisScore scoredPlayerScore;
+        TennisScore opponentScore;
+        if(info.getScoredId().equals(info.getPlayer1().getId())){
+            scoredPlayerScore = info.getPlayer1().getScore();
+            opponentScore = info.getPlayer2().getScore();
+        }else{
+            scoredPlayerScore = info.getPlayer2().getScore();
+            opponentScore = info.getPlayer1().getScore();
+        }
+
         if (scoredPlayerScore.isTiebreak() && opponentScore.isTiebreak()) {
             calculateTieBreak(scoredPlayerScore, opponentScore);
         } else {
