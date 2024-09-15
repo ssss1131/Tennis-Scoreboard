@@ -109,7 +109,12 @@
 /*Body*/
 
 .newMatchBody{
-  background-color: bisque;
+  width: 100%;
+  height: 100vh;
+  background-image: url('../img/bgNewMatch.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .mainNewMatch{
@@ -172,7 +177,7 @@
 }
 
 
-/*All Matches and some Match.jsp styles*/
+/*All Matches*/
 
 .content-table{
   border-collapse: collapse;
@@ -232,7 +237,10 @@
 
 .mainPlayingMatch{
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   background-image: url("../img/PlayingMatchBg.jpg");
 }
 
@@ -283,13 +291,28 @@
 }
 /* Winner*/
 
-.mainWinnerPage{
-  width: 100%;
-  height: 100%;
-  background-image: url("../img/winner.jpg");
+.mainWinnerPage {
+  text-align: center;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+  width: 60%;
+  margin: 20px auto;
 }
 
-.WinnerName{
-  text-align: center;
-  font-size: large;
+.winnerImage img {
+  width: 500px;
+  height: 500px;
+  border-radius: 10px;
+}
+
+.winnerDetails h1 {
+  font-size: 26px;
+  color: #333;
+}
+
+.winnerDetails p {
+  color: #666;
+  font-size: 26px;
 }
