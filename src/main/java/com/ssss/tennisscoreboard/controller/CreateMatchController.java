@@ -3,7 +3,7 @@ package com.ssss.tennisscoreboard.controller;
 import com.ssss.tennisscoreboard.dto.CurrentMatch;
 import com.ssss.tennisscoreboard.entity.Player;
 import com.ssss.tennisscoreboard.service.OnGoingMatchesService;
-import com.ssss.tennisscoreboard.service.PlayerRepositoryInteractionService;
+import com.ssss.tennisscoreboard.service.PlayerRepositoryService;
 import com.ssss.tennisscoreboard.util.JspPathFinder;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,13 +17,13 @@ import java.io.IOException;
 @WebServlet("/new-match")
 public class CreateMatchController extends HttpServlet {
 
-    private PlayerRepositoryInteractionService playerRepositoryService;
+    private PlayerRepositoryService playerRepositoryService;
     private OnGoingMatchesService onGoingMatchesService;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        playerRepositoryService = new PlayerRepositoryInteractionService();
+        playerRepositoryService = new PlayerRepositoryService();
         onGoingMatchesService = new OnGoingMatchesService();
     }
 

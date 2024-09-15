@@ -1,6 +1,7 @@
 package com.ssss.tennisscoreboard.dto;
 
 
+import com.ssss.tennisscoreboard.dto.some.TennisScore;
 import lombok.Builder;
 import lombok.Data;
 

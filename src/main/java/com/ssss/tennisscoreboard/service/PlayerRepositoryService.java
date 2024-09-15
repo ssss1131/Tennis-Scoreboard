@@ -6,7 +6,7 @@ import com.ssss.tennisscoreboard.util.HibernateUtils;
 import lombok.Cleanup;
 import org.hibernate.Session;
 
-public class PlayerRepositoryInteractionService {
+public class PlayerRepositoryService {
 
     public Player createNewUser(String name) {
         @Cleanup Session session = HibernateUtils.getSessionFactory().getCurrentSession();

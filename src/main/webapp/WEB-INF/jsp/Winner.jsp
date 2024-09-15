@@ -26,8 +26,12 @@
 </div>
 <hr>
 <div class="mainWinnerPage">
-    <div class="WinnerName">
-        <p>Winner: ${requestScope.winner}</p>
+    <div class="winnerImage">
+        <img src="${pageContext.request.contextPath}/img/winner.jpg" alt="winner Image">
+    </div>
+    <div class="winnerDetails">
+        <h1>Congratulations!</h1>
+        <p>${requestScope.winner}</p>
     </div>
 </div>
 </body>
