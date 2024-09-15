@@ -1,6 +1,7 @@
 package com.ssss.tennisscoreboard.controller;
 
 import com.ssss.tennisscoreboard.dto.CurrentMatch;
+import com.ssss.tennisscoreboard.dto.PlayingMatchInfo;
 import com.ssss.tennisscoreboard.dto.TennisPlayerMatchInfo;
 import com.ssss.tennisscoreboard.service.OnGoingMatchesService;
 import com.ssss.tennisscoreboard.service.TennisScoreCalculatorService;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.UUID;
 
 import static jakarta.servlet.http.HttpServletResponse.SC_OK;
@@ -42,25 +44,17 @@ public class PlayingMatchController extends HttpServlet {
         Long scoredId = Long.valueOf(req.getParameter("playerId"));
         UUID uuid = UUID.fromString(req.getParameter("uuid"));
         CurrentMatch match = onGoingMatchesService.getMatch(uuid);
-        TennisPlayerMatchInfo firstPlayer = match.getFirstPlayer();
-        TennisPlayerMatchInfo secondPlayer = match.getSecondPlayer();
-        if(scoredId.equals(firstPlayer.getId())){
-           calculatorService.calculate(firstPlayer.getScore(), secondPlayer.getScore());
-           if(firstPlayer.getScore().getSets() == 2){
-               req.setAttribute("winner", firstPlayer.getName());
-               resp.setStatus(SC_OK);
-               req.getRequestDispatcher(JspPathFinder.getPath("Winner")).forward(req, resp);
-           }
-
-        } else if (scoredId.equals(secondPlayer.getId())) {
-            calculatorService.calculate(secondPlayer.getScore(), firstPlayer.getScore());
-            if(secondPlayer.getScore().getSets() == 2){
-                req.setAttribute("winner", secondPlayer.getName());
-                resp.setStatus(SC_OK);
-                req.getRequestDispatcher(JspPathFinder.getPath("Winner")).forward(req, resp);
-            }
+        PlayingMatchInfo playingMatchInfo = PlayingMatchInfo.builder()
+                .player1(match.getFirstPlayer())
+                .player2(match.getSecondPlayer())
+                .scoredId(scoredId)
+                .build();
+        calculatorService.calculate(playingMatchInfo);
+        Optional<String> maybeWinner = onGoingMatchesService.processMatchCompletion(uuid);
+        if(maybeWinner.isPresent()){
+            req.setAttribute("winner", maybeWinner.get());
+            req.getRequestDispatcher(JspPathFinder.getPath("Winner")).forward(req, resp);
         }
-
         doGet(req, resp);
 
     }
