@@ -3,7 +3,9 @@ package com.ssss.tennisscoreboard.service;
 import com.ssss.tennisscoreboard.dto.CurrentMatch;
 import com.ssss.tennisscoreboard.dto.TennisPlayerMatchInfo;
 import com.ssss.tennisscoreboard.dto.some.TennisScore;
+import com.ssss.tennisscoreboard.entity.Match;
 import com.ssss.tennisscoreboard.entity.Player;
+import com.ssss.tennisscoreboard.mapper.ToPlayerMapper;
 
 import java.util.Map;
 import java.util.Optional;
@@ -12,6 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class OnGoingMatchesService {
     private static final Map<UUID, CurrentMatch> currentMatches = new ConcurrentHashMap<>();
+    private final MatchRepositoryService matchRepositoryService = new MatchRepositoryService();
 
     public CurrentMatch getMatch(UUID uuid) {
         return currentMatches.get(uuid);
@@ -43,9 +46,20 @@ public class OnGoingMatchesService {
         TennisPlayerMatchInfo secondPlayer = currentMatch.getSecondPlayer();
         if(firstPlayer.getScore().getSets() == 2 || secondPlayer.getScore().getSets() == 2){
             removeFromMap(uuid);
+
+            Match match = Match.builder()
+                    .player1(ToPlayerMapper.mapToPlayer(firstPlayer))
+                    .player2(ToPlayerMapper.mapToPlayer(secondPlayer))
+                    .build();
+
             if(firstPlayer.getScore().getSets() == 2){
+                match.setWinner(match.getPlayer1());
+                matchRepositoryService.createNewMatch(match);
                 return Optional.of(firstPlayer.getName());
             }
+
+            match.setWinner(match.getPlayer2());
+            matchRepositoryService.createNewMatch(match);
             return Optional.of(secondPlayer.getName());
         }
         return Optional.empty();
