@@ -3,7 +3,6 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
-  overflow: hidden;
 }
 
 .container {
@@ -178,6 +177,44 @@
 
 
 /*All Matches*/
+
+.search {
+  width: max-content;
+  display: flex;
+  align-items: center;
+  padding: 14px;
+  border-radius: 28px;
+  background-color: #f6f6f6;
+  margin-left:500px;
+}
+
+.search-input{
+  font-size: 16px;
+  font-family: sans-serif;
+  color:#333333;
+  margin-left:14px;
+  outline: none;
+  border: none;
+  background: transparent;
+  width: 300px;
+}
+
+.search-button, .reset-button {
+  cursor: pointer;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 14px;
+  padding: 8px 16px;
+  margin-left: 10px;
+  outline: none;
+  font-family: sans-serif;
+}
+
+.reset-button {
+  text-decoration: none;
+  background-color: #f44336;
+}
 
 .content-table{
   border-collapse: collapse;
