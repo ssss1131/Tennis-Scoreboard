@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @WebServlet("/matches")
 public class AllMatchesController extends HttpServlet {
@@ -32,14 +33,20 @@ public class AllMatchesController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //TODO надо сделать так чтобы pages передавал не только общее ну и количество при фильтре если есть
-        String maybePage = req.getParameter("page");
         String maybeFilter = req.getParameter("query");
-        int page = maybePage != null ? UserInputValidator.validate(maybePage) : 1;
-        List<Match> matches = matchRepositoryService.getMatchesWithFilter(maybeFilter, pageSize, page);
-        int allPages = matchRepositoryService.getAllPagesCountWithPageSize(pageSize);
+        String page = req.getParameter("page");
+        Optional<String> filter = UserInputValidator.validateFilter(maybeFilter);
+        List<Match> matches;
+        int allPagesCount;
+        if(filter.isPresent()){
+            matches = matchRepositoryService.getMatchesWithFilter(filter.get(), pageSize, page);
+            allPagesCount = matchRepositoryService.getAllFilteredPages(filter.get(), pageSize);
+        }else{
+            matches = matchRepositoryService.getMatchesWithFilter(pageSize, page);
+            allPagesCount = matchRepositoryService.getAllPages(pageSize);
+        }
         req.setAttribute("matches", matches);
-        req.setAttribute("pages", allPages);
+        req.setAttribute("pages", allPagesCount);
         req.getRequestDispatcher(JspPathFinder.getPath("AllMatches")).forward(req, resp);
     }
 }
