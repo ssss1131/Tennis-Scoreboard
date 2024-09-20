@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html lang="en">
 <head>
@@ -22,6 +23,9 @@
     </div>
 </div>
 <hr>
+<c:if test="${not empty requestScope.error}">
+    <p class="error">${requestScope.error}</p>
+</c:if>
 
 <form action="${pageContext.request.contextPath}/new-match" method="POST">
     <div class="mainNewMatch">
