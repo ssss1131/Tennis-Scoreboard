@@ -1,11 +1,18 @@
 package com.ssss.tennisscoreboard.util;
 
+import com.ssss.tennisscoreboard.exception.SameNameException;
 import lombok.experimental.UtilityClass;
 
 import java.util.Optional;
 
 @UtilityClass
 public class UserInputValidator {
+
+
+    public static void validate(String playerOneName, String playerTwoName){
+        if(playerOneName == null || playerTwoName == null || playerOneName.equalsIgnoreCase(playerTwoName))
+            throw new SameNameException("Players name must be different");
+    }
 
     public static int validatePage(String maybePage) {
         int page;

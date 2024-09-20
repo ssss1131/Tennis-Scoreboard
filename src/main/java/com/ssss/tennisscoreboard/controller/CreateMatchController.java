@@ -5,6 +5,7 @@ import com.ssss.tennisscoreboard.entity.Player;
 import com.ssss.tennisscoreboard.service.OnGoingMatchesService;
 import com.ssss.tennisscoreboard.service.PlayerRepositoryService;
 import com.ssss.tennisscoreboard.util.JspPathFinder;
+import com.ssss.tennisscoreboard.util.UserInputValidator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -37,6 +38,7 @@ public class CreateMatchController extends HttpServlet {
         //TODO null или нет надо чекнуть и впринципе валидацию сделать
         String firstPlayerName = req.getParameter("firstPlayer");
         String secondPlayerName = req.getParameter("secondPlayer");
+        UserInputValidator.validate(firstPlayerName, secondPlayerName);
         Player firstPlayer = playerRepositoryService.createNewUser(firstPlayerName);
         Player secondPlayer = playerRepositoryService.createNewUser(secondPlayerName);
         CurrentMatch newMatch = onGoingMatchesService.createNewMatch(firstPlayer, secondPlayer);
