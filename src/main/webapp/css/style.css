@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
+  overflow: hidden;
 }
 
 .container {
@@ -218,7 +219,7 @@
 
 .content-table{
   border-collapse: collapse;
-  margin:50px 100px;
+  margin:30px 100px;
   font-size: 1.2em;
   width: 90%;
   height: 70vh;
@@ -252,10 +253,10 @@
 .pagination {
   display: flex;
   justify-content: center;
-  margin: 20px 0;
+  /*margin: 20px 0;*/
 }
 
-.pagination a {
+.paginationButton {
   color: #009879;
   padding: 8px 16px;
   text-decoration: none;
@@ -265,7 +266,7 @@
   transition: background-color 0.3s;
 }
 
-.pagination a:hover {
+.paginationButton:hover {
   background-color: #009879;
   color: #ffffff;
 }
