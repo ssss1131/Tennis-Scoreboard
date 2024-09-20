@@ -21,6 +21,11 @@ public class OnGoingMatchesService {
     }
 
     public CurrentMatch createNewMatch(Player firstPlayer, Player secondPlayer) {
+        Optional<CurrentMatch> ongoingMatchByPlayers = findOngoingMatchByPlayers(firstPlayer.getName().toLowerCase(), secondPlayer.getName().toLowerCase());
+        if(ongoingMatchByPlayers.isPresent()){
+            return ongoingMatchByPlayers.get();
+        }
+
         UUID uuid = UUID.randomUUID();
         CurrentMatch newMatch = CurrentMatch.builder()
                 .uuid(uuid)
@@ -40,11 +45,11 @@ public class OnGoingMatchesService {
         return newMatch;
     }
 
-    public Optional<String> processMatchCompletion(UUID uuid){
+    public Optional<String> processMatchCompletion(UUID uuid) {
         CurrentMatch currentMatch = currentMatches.get(uuid);
         TennisPlayerMatchInfo firstPlayer = currentMatch.getFirstPlayer();
         TennisPlayerMatchInfo secondPlayer = currentMatch.getSecondPlayer();
-        if(firstPlayer.getScore().getSets() == 2 || secondPlayer.getScore().getSets() == 2){
+        if (firstPlayer.getScore().getSets() == 2 || secondPlayer.getScore().getSets() == 2) {
             removeFromMap(uuid);
 
             Match match = Match.builder()
@@ -52,7 +57,7 @@ public class OnGoingMatchesService {
                     .player2(ToPlayerMapper.mapToPlayer(secondPlayer))
                     .build();
 
-            if(firstPlayer.getScore().getSets() == 2){
+            if (firstPlayer.getScore().getSets() == 2) {
                 match.setWinner(match.getPlayer1());
                 matchRepositoryService.createNewMatch(match);
                 return Optional.of(firstPlayer.getName());
@@ -66,7 +71,20 @@ public class OnGoingMatchesService {
 
     }
 
-    private void removeFromMap(UUID uuid){
+    private Optional<CurrentMatch> findOngoingMatchByPlayers(String playerOneName, String playerTwoName) {
+        for (CurrentMatch match : currentMatches.values()) {
+            String firstPlayerNameInMatch = match.getFirstPlayer().getName().toLowerCase();
+            String secondPlayerNameInMatch = match.getSecondPlayer().getName().toLowerCase();
+
+            if ((firstPlayerNameInMatch.equals(playerOneName) && secondPlayerNameInMatch.equals(playerTwoName)) ||
+                (firstPlayerNameInMatch.equals(playerTwoName) && secondPlayerNameInMatch.equals(playerOneName))) {
+                return Optional.of(match);
+            }
+        }
+        return Optional.empty();
+    }
+
+    private void removeFromMap(UUID uuid) {
         currentMatches.remove(uuid);
     }
 
