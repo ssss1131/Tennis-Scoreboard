@@ -6,9 +6,14 @@ import com.ssss.tennisscoreboard.dto.some.TennisScore;
 
 public class TennisScoreCalculatorService {
 
+    private static final int POINTS_STEP_15 = 15;
+    private static final int POINTS_STEP_10 = 10;
+    private static final int THIRTY_POINTS = 30;
+    private static final int MAX_POINTS_BEFORE_DEUCE = 40;
+    private static final int MAX_GAMES_BEFORE_TIEBREAK = 6;
+    private static final int ALMOST_TIEBREAK_GAMES = 5;
+
     public void calculate(PlayingMatchInfo info) {
-        //TODO разделить на методы
-        //TODO убрать магические цифры
         TennisScore scoredPlayerScore;
         TennisScore opponentScore;
         if(info.getScoredId().equals(info.getPlayer1().getId())){
@@ -22,37 +27,47 @@ public class TennisScoreCalculatorService {
         if (scoredPlayerScore.isTiebreak() && opponentScore.isTiebreak()) {
             calculateTieBreak(scoredPlayerScore, opponentScore);
         } else {
-            if (scoredPlayerScore.isDeuce() || opponentScore.isDeuce()) {
-                calculateDeuce(scoredPlayerScore, opponentScore);
-                return;
-            }
+            calculateRegularGame(scoredPlayerScore, opponentScore);
+        }
+    }
 
-            int pointsOpponent = opponentScore.getPoints();
-            int pointsScored = calculatePoints(scoredPlayerScore.getPoints());
-            scoredPlayerScore.setPoints(pointsScored);
+    private void calculateRegularGame(TennisScore scoredPlayerScore, TennisScore opponentScore){
+        if (scoredPlayerScore.isDeuce() || opponentScore.isDeuce()) {
+            calculateDeuce(scoredPlayerScore, opponentScore);
+            return;
+        }
+        int pointsOpponent = opponentScore.getPoints();
+        int pointsScored = calculatePoints(scoredPlayerScore.getPoints());
+        scoredPlayerScore.setPoints(pointsScored);
 
-            int gamesOpponent = opponentScore.getGames();
-            int gamesScored = scoredPlayerScore.getGames();
+        if (isDeuce(pointsOpponent, pointsScored)) {
+            scoredPlayerScore.setDeuce(true);
+            opponentScore.setDeuce(true);
+            scoredPlayerScore.setPoints(0);
+            opponentScore.setPoints(0);
+        } else if(pointsScored == 0){
+            handleGameEnd(scoredPlayerScore, opponentScore);
+        }
 
-            if (pointsOpponent == 40 && pointsScored == 40) {
-                scoredPlayerScore.setDeuce(true);
-                opponentScore.setDeuce(true);
-                scoredPlayerScore.setPoints(0);
+    }
+
+    private void handleGameEnd(TennisScore scoredPlayerScore, TennisScore opponentScore) {
+        int gamesScored = scoredPlayerScore.getGames();
+        int gamesOpponent = opponentScore.getGames();
+
+        if (isNotTieBreak(gamesScored, gamesOpponent)) {
+            if (gamesScored < ALMOST_TIEBREAK_GAMES || (gamesScored==ALMOST_TIEBREAK_GAMES && gamesOpponent == ALMOST_TIEBREAK_GAMES)) {
+                scoredPlayerScore.setGames(gamesScored + 1);
                 opponentScore.setPoints(0);
-            } else if (pointsScored == 0) {
-                if (!(gamesScored == 5 && gamesOpponent == 6)) {
-                    if (gamesScored < 5 || (gamesScored==5 && gamesOpponent == 5)) {
-                        scoredPlayerScore.setGames(gamesScored + 1);
-                    } else {
-                        scoredPlayerScore.setGames(0);
-                        scoredPlayerScore.setSets(scoredPlayerScore.getSets() + 1);
-                    }
-                } else {
-                    scoredPlayerScore.setGames(gamesScored + 1);
-                    scoredPlayerScore.setTiebreak(true);
-                    opponentScore.setTiebreak(true);
-                }
+            } else {
+                scoredPlayerScore.setGames(0);
+                scoredPlayerScore.setSets(scoredPlayerScore.getSets() + 1);
+                opponentScore.setPoints(0);
             }
+        } else {
+            scoredPlayerScore.setGames(gamesScored + 1);
+            scoredPlayerScore.setTiebreak(true);
+            opponentScore.setTiebreak(true);
         }
     }
 
@@ -75,7 +90,7 @@ public class TennisScoreCalculatorService {
     private void calculateTieBreak(TennisScore scoredPlayerScore, TennisScore opponentScore) {
         int tiebreakPointsScored = scoredPlayerScore.getTiebreakPointsPlayer();
         int tiebreakPointsOpponent = opponentScore.getTiebreakPointsPlayer();
-        if (tiebreakPointsScored >= 6 && tiebreakPointsScored >= tiebreakPointsOpponent + 1) {
+        if (tiebreakPointsScored >= MAX_GAMES_BEFORE_TIEBREAK && tiebreakPointsScored >= tiebreakPointsOpponent + 1) {
             scoredPlayerScore.setSets(scoredPlayerScore.getSets() + 1);
             scoredPlayerScore.setGames(0);
             opponentScore.setGames(0);
@@ -87,13 +102,21 @@ public class TennisScoreCalculatorService {
     }
 
     private int calculatePoints(int points) {
-        if (points < 30) {
-            points += 15;
-        } else if (points == 30) {
-            points += 10;
+        if (points < THIRTY_POINTS) {
+            points += POINTS_STEP_15;
+        } else if (points == THIRTY_POINTS) {
+            points += POINTS_STEP_10;
         } else {
             points = 0;
         }
         return points;
+    }
+
+    private boolean isDeuce(int pointsOpponent, int pointsScored) {
+        return pointsOpponent == MAX_POINTS_BEFORE_DEUCE  && pointsScored == MAX_POINTS_BEFORE_DEUCE ;
+    }
+
+    private static boolean isNotTieBreak(int gamesScored, int gamesOpponent) {
+        return !(gamesScored == ALMOST_TIEBREAK_GAMES && gamesOpponent == MAX_GAMES_BEFORE_TIEBREAK);
     }
 }
