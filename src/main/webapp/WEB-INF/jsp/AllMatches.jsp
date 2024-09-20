@@ -57,14 +57,18 @@
         </table>
     </div>
     <div class="pagination">
-        <c:forEach var="i" begin="1" end="${requestScope.pages}" step="1">
-            <form action="${pageContext.request.contextPath}/matches" method="GET">
-                <input type="hidden" name="page" value="${i}"/>
-                <button type="submit">${i}</button>
-            </form>
-        </c:forEach>
+        <c:if test="${requestScope.pages > 1}">
+            <c:forEach var="i" begin="1" end="${requestScope.pages}" step="1">
+                <form action="${pageContext.request.contextPath}/matches" method="GET">
+                    <input type="hidden" name="page" value="${i}"/>
+                    <c:if test="${not empty param.query}">
+                        <input type="hidden" name="query" value="${param.query}"/>
+                    </c:if>
+                    <button type="submit" class="paginationButton">${i}</button>
+                </form>
+            </c:forEach>
+        </c:if>
     </div>
-
 </div>
 
 </body>
