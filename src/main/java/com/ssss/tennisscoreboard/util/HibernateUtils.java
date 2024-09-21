@@ -1,7 +1,7 @@
 package com.ssss.tennisscoreboard.util;
 
-import com.ssss.tennisscoreboard.entity.Match;
-import com.ssss.tennisscoreboard.entity.Player;
+import com.ssss.tennisscoreboard.model.Match;
+import com.ssss.tennisscoreboard.model.Player;
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
 import org.hibernate.SessionFactory;

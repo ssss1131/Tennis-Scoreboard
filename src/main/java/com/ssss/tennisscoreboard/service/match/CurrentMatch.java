@@ -1,5 +1,6 @@
-package com.ssss.tennisscoreboard.dto;
+package com.ssss.tennisscoreboard.service.match;
 
+import com.ssss.tennisscoreboard.dto.TennisPlayerMatchInfo;
 import lombok.Builder;
 import lombok.Data;
 

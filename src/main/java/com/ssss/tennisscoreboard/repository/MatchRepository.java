@@ -1,6 +1,6 @@
 package com.ssss.tennisscoreboard.repository;
 
-import com.ssss.tennisscoreboard.entity.Match;
+import com.ssss.tennisscoreboard.model.Match;
 import jakarta.persistence.*;
 import org.hibernate.graph.GraphSemantic;
 

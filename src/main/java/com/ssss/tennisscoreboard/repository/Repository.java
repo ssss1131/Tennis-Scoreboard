@@ -1,9 +1,8 @@
 package com.ssss.tennisscoreboard.repository;
 
-import com.ssss.tennisscoreboard.entity.BaseEntity;
+import com.ssss.tennisscoreboard.model.BaseEntity;
 
 import java.io.Serializable;
-import java.util.List;
 
 public interface Repository<K extends Serializable, E extends BaseEntity<K>> {
 

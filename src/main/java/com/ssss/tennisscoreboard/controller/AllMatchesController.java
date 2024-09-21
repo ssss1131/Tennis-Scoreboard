@@ -1,6 +1,6 @@
 package com.ssss.tennisscoreboard.controller;
 
-import com.ssss.tennisscoreboard.entity.Match;
+import com.ssss.tennisscoreboard.model.Match;
 import com.ssss.tennisscoreboard.service.MatchRepositoryService;
 import com.ssss.tennisscoreboard.util.JspPathFinder;
 import com.ssss.tennisscoreboard.util.UserInputValidator;

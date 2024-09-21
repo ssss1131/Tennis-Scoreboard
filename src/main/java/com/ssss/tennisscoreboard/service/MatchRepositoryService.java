@@ -1,6 +1,6 @@
 package com.ssss.tennisscoreboard.service;
 
-import com.ssss.tennisscoreboard.entity.Match;
+import com.ssss.tennisscoreboard.model.Match;
 import com.ssss.tennisscoreboard.repository.MatchRepository;
 import com.ssss.tennisscoreboard.util.HibernateUtils;
 import com.ssss.tennisscoreboard.util.UserInputValidator;

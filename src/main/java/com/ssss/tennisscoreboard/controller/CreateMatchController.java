@@ -1,7 +1,7 @@
 package com.ssss.tennisscoreboard.controller;
 
-import com.ssss.tennisscoreboard.dto.CurrentMatch;
-import com.ssss.tennisscoreboard.entity.Player;
+import com.ssss.tennisscoreboard.service.match.CurrentMatch;
+import com.ssss.tennisscoreboard.model.Player;
 import com.ssss.tennisscoreboard.service.OnGoingMatchesService;
 import com.ssss.tennisscoreboard.service.PlayerRepositoryService;
 import com.ssss.tennisscoreboard.util.JspPathFinder;

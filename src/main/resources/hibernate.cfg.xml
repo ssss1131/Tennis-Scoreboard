@@ -14,7 +14,7 @@
     <property name="hibernate.hbm2ddl.auto">create</property>
     <property name="hibernate.current_session_context_class">thread</property>
 
-    <mapping class="com.ssss.tennisscoreboard.entity.Match"/>
-    <mapping class="com.ssss.tennisscoreboard.entity.Player"/>
+    <mapping class="com.ssss.tennisscoreboard.model.Match"/>
+    <mapping class="com.ssss.tennisscoreboard.model.Player"/>
   </session-factory>
 </hibernate-configuration>
