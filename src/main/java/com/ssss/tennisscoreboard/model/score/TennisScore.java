@@ -1,4 +1,4 @@
-package com.ssss.tennisscoreboard.dto.some;
+package com.ssss.tennisscoreboard.model.score;
 
 import lombok.Getter;
 import lombok.Setter;
