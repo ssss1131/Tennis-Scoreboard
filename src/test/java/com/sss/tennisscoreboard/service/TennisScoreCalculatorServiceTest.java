@@ -2,12 +2,9 @@ package com.sss.tennisscoreboard.service;
 
 import com.ssss.tennisscoreboard.dto.PlayingMatchInfo;
 import com.ssss.tennisscoreboard.dto.TennisPlayerMatchInfo;
-import com.ssss.tennisscoreboard.dto.some.TennisDeuceScore;
-import com.ssss.tennisscoreboard.dto.some.TennisScore;
-import com.ssss.tennisscoreboard.entity.Player;
+import com.ssss.tennisscoreboard.model.score.TennisDeuceScore;
+import com.ssss.tennisscoreboard.model.score.TennisScore;
 import com.ssss.tennisscoreboard.service.TennisScoreCalculatorService;
-import org.h2.mode.ToDateParser;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

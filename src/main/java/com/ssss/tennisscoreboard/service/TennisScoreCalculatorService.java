@@ -1,8 +1,8 @@
 package com.ssss.tennisscoreboard.service;
 
 import com.ssss.tennisscoreboard.dto.PlayingMatchInfo;
-import com.ssss.tennisscoreboard.dto.some.TennisDeuceScore;
-import com.ssss.tennisscoreboard.dto.some.TennisScore;
+import com.ssss.tennisscoreboard.model.score.TennisDeuceScore;
+import com.ssss.tennisscoreboard.model.score.TennisScore;
 
 public class TennisScoreCalculatorService {
 

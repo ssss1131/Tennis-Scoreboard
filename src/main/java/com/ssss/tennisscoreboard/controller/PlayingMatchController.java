@@ -1,8 +1,7 @@
 package com.ssss.tennisscoreboard.controller;
 
-import com.ssss.tennisscoreboard.dto.CurrentMatch;
+import com.ssss.tennisscoreboard.service.match.CurrentMatch;
 import com.ssss.tennisscoreboard.dto.PlayingMatchInfo;
-import com.ssss.tennisscoreboard.dto.TennisPlayerMatchInfo;
 import com.ssss.tennisscoreboard.service.OnGoingMatchesService;
 import com.ssss.tennisscoreboard.service.TennisScoreCalculatorService;
 import com.ssss.tennisscoreboard.util.JspPathFinder;
@@ -15,8 +14,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
-
-import static jakarta.servlet.http.HttpServletResponse.SC_OK;
 
 @WebServlet("/match-score")
 public class PlayingMatchController extends HttpServlet {

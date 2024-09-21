@@ -1,11 +1,11 @@
 package com.ssss.tennisscoreboard.service;
 
-import com.ssss.tennisscoreboard.dto.CurrentMatch;
+import com.ssss.tennisscoreboard.service.match.CurrentMatch;
 import com.ssss.tennisscoreboard.dto.TennisPlayerMatchInfo;
-import com.ssss.tennisscoreboard.dto.some.TennisScore;
-import com.ssss.tennisscoreboard.entity.Match;
-import com.ssss.tennisscoreboard.entity.Player;
-import com.ssss.tennisscoreboard.mapper.ToPlayerMapper;
+import com.ssss.tennisscoreboard.model.score.TennisScore;
+import com.ssss.tennisscoreboard.model.Match;
+import com.ssss.tennisscoreboard.model.Player;
+import com.ssss.tennisscoreboard.util.MapperUtils;
 
 import java.util.Map;
 import java.util.Optional;
@@ -53,8 +53,8 @@ public class OnGoingMatchesService {
             removeFromMap(uuid);
 
             Match match = Match.builder()
-                    .player1(ToPlayerMapper.mapToPlayer(firstPlayer))
-                    .player2(ToPlayerMapper.mapToPlayer(secondPlayer))
+                    .player1(MapperUtils.mapTo(firstPlayer))
+                    .player2(MapperUtils.mapTo(secondPlayer))
                     .build();
 
             if (firstPlayer.getScore().getSets() == 2) {
