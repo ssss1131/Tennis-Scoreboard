@@ -1,25 +1,27 @@
 package com.ssss.tennisscoreboard.service;
 
-import com.ssss.tennisscoreboard.entity.Player;
+import com.ssss.tennisscoreboard.model.Player;
 import com.ssss.tennisscoreboard.repository.PlayerRepository;
 import com.ssss.tennisscoreboard.util.HibernateUtils;
-import lombok.Cleanup;
 import org.hibernate.Session;
+
+import java.util.Optional;
 
 public class PlayerRepositoryService {
 
     public Player createNewUser(String name) {
-        @Cleanup Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        Player player = Player.builder()
-                .name(name)
-                .build();
         PlayerRepository playerRepository = new PlayerRepository(session);
-        //TODO оптимизировать тут сделать все одним запросом
-        if (playerRepository.isNotExist(name)) {
+        Optional<Player> maybePlayer = playerRepository.findByName(name);
+        Player player;
+        if (maybePlayer.isEmpty()) {
+            player = Player.builder()
+                    .name(name)
+                    .build();
             playerRepository.save(player);
-        }else{
-            player = playerRepository.findByName(name);
+        }else {
+            player = maybePlayer.get();
         }
         session.getTransaction().commit();
         return player;
