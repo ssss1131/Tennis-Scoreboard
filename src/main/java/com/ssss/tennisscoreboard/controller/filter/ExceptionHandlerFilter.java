@@ -17,11 +17,14 @@ public class ExceptionHandlerFilter extends HttpFilter {
 
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
-        try{
+        try {
             chain.doFilter(req, res);
-        }catch (SameNameException e){
+        } catch (SameNameException e) {
             req.setAttribute("error", e.getMessage());
             req.getRequestDispatcher(JspPathFinder.getPath("NewMatch")).forward(req, res);
+        } catch (Exception e) {
+            req.setAttribute("error", e.getMessage());
+            req.getRequestDispatcher(JspPathFinder.getPath("Error")).forward(req, res);
         }
     }
 }
