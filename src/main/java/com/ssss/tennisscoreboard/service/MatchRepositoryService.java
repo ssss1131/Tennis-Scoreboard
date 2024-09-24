@@ -14,48 +14,92 @@ public class MatchRepositoryService {
 
     public Match createNewMatch(Match match) {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        matchRepository = new MatchRepository(session);
-        matchRepository.save(match);
-        session.getTransaction().commit();
-        return match;
+        try {
+            startTransaction(session);
+            matchRepository = new MatchRepository(session);
+            matchRepository.save(match);
+            commitTransaction(session);
+            return match;
+        } catch (Exception e) {
+            rollbackTransaction(session);
+            throw e;
+        }
     }
 
     public List<Match> getMatchesWithFilter(String filter, int pageSize, String maybePage) {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        matchRepository = new MatchRepository(session);
-        int page = UserInputValidator.validatePage(maybePage);
-        List<Match> matches = matchRepository.findFilteredMatches(filter, pageSize, page);
-        session.getTransaction().commit();
-        return matches;
+        try {
+            startTransaction(session);
+            matchRepository = new MatchRepository(session);
+            int page = UserInputValidator.validatePage(maybePage);
+            List<Match> matches = matchRepository.findFilteredMatches(filter, pageSize, page);
+            commitTransaction(session);
+            return matches;
+        } catch (Exception e) {
+            rollbackTransaction(session);
+            throw e;
+        }
     }
 
     public List<Match> getMatchesWithFilter(int pageSize, String maybePage) {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        matchRepository = new MatchRepository(session);
-        int page = UserInputValidator.validatePage(maybePage);
-        List<Match> matches = matchRepository.findFilteredMatches(pageSize, page);
-        session.getTransaction().commit();
-        return matches;
+        try {
+            startTransaction(session);
+            matchRepository = new MatchRepository(session);
+            int page = UserInputValidator.validatePage(maybePage);
+            List<Match> matches = matchRepository.findFilteredMatches(pageSize, page);
+            commitTransaction(session);
+            return matches;
+        } catch (Exception e) {
+            rollbackTransaction(session);
+            throw e;
+        }
     }
 
     public int getAllPages(int pageSize) {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        matchRepository = new MatchRepository(session);
-        int matches = matchRepository.findCountOfAll();
-        session.getTransaction().commit();
-        return (matches + pageSize - 1) / pageSize;
+        try {
+            startTransaction(session);
+            matchRepository = new MatchRepository(session);
+            int matches = matchRepository.findCountOfAll();
+            commitTransaction(session);
+            return (matches + pageSize - 1) / pageSize;
+        } catch (Exception e) {
+            rollbackTransaction(session);
+            throw e;
+        }
     }
 
     public int getAllFilteredPages(String filter, int pageSize) {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        matchRepository = new MatchRepository(session);
-        int matches = matchRepository.findCountOfFilteredPlayers(filter);
-        session.getTransaction().commit();
-        return (matches + pageSize - 1) / pageSize;
+        try {
+            startTransaction(session);
+            matchRepository = new MatchRepository(session);
+            int matches = matchRepository.findCountOfFilteredPlayers(filter);
+            commitTransaction(session);
+            return (matches + pageSize - 1) / pageSize;
+        } catch (Exception e) {
+            rollbackTransaction(session);
+            throw e;
+        }
+    }
+
+    private void startTransaction(Session session) {
+        if (!session.getTransaction().isActive()) {
+            session.beginTransaction();
+        }
+    }
+
+    private void commitTransaction(Session session) {
+        if (session.getTransaction().isActive()) {
+            session.getTransaction().commit();
+        }
+    }
+
+    private void rollbackTransaction(Session session) {
+        if (session.getTransaction().isActive()) {
+            session.getTransaction().rollback();
+        }
     }
 }
+
