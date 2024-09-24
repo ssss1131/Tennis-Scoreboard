@@ -35,14 +35,13 @@ public class CreateMatchController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //TODO null или нет надо чекнуть и впринципе валидацию сделать
         String firstPlayerName = req.getParameter("firstPlayer");
         String secondPlayerName = req.getParameter("secondPlayer");
         UserInputValidator.validate(firstPlayerName, secondPlayerName);
         Player firstPlayer = playerRepositoryService.createNewUser(firstPlayerName);
         Player secondPlayer = playerRepositoryService.createNewUser(secondPlayerName);
         CurrentMatch newMatch = onGoingMatchesService.createNewMatch(firstPlayer, secondPlayer);
-        resp.sendRedirect(String.format("/match-score?uuid=%s", newMatch.getUuid()));
+        resp.sendRedirect(String.format("%s/match-score?uuid=%s", req.getContextPath(), newMatch.getUuid()));
     }
 }
 
