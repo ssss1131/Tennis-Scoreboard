@@ -13,7 +13,7 @@
         <a href="${pageContext.request.contextPath}/home"><img src="${pageContext.request.contextPath}/img/Home-Icon.png" alt="Home Icon"></a>
     </div>
     <div class="TextAboutPage">
-        <p>New Match</p>
+        <p>New</p>
     </div>
     <div class="ListIcon">
         <a href="${pageContext.request.contextPath}/matches"><img src="${pageContext.request.contextPath}/img/listIcon.png" alt="list Icon"></a>

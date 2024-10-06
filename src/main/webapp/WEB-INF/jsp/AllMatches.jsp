@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>All Matches</title>
+    <title>All matches</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
@@ -15,7 +15,7 @@
                 src="${pageContext.request.contextPath}/img/Home-Icon.png" alt="Home Icon"></a>
     </div>
     <div class="TextAboutPage">
-        <p>Matches</p>
+        <p>All</p>
     </div>
     <div class="ListIcon">
         <a href="${pageContext.request.contextPath}/matches"><img
