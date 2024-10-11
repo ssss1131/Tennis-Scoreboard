@@ -3,10 +3,10 @@ package com.ssss.tennisscoreboard.service;
 import com.ssss.tennisscoreboard.model.Match;
 import com.ssss.tennisscoreboard.repository.MatchRepository;
 import com.ssss.tennisscoreboard.util.HibernateUtils;
-import com.ssss.tennisscoreboard.util.UserInputValidator;
 import org.hibernate.Session;
 
 import java.util.List;
+import java.util.Optional;
 
 public class MatchRepositoryService {
 
@@ -26,28 +26,12 @@ public class MatchRepositoryService {
         }
     }
 
-    public List<Match> getMatchesWithFilter(String filter, int pageSize, String maybePage) {
+    public List<Match> getMatchesWithFilter(Optional<String> filter, int pageSize, int page) {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         try {
             startTransaction(session);
             matchRepository = new MatchRepository(session);
-            int page = UserInputValidator.validatePage(maybePage);
             List<Match> matches = matchRepository.findFilteredMatches(filter, pageSize, page);
-            commitTransaction(session);
-            return matches;
-        } catch (Exception e) {
-            rollbackTransaction(session);
-            throw e;
-        }
-    }
-
-    public List<Match> getMatchesWithFilter(int pageSize, String maybePage) {
-        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
-        try {
-            startTransaction(session);
-            matchRepository = new MatchRepository(session);
-            int page = UserInputValidator.validatePage(maybePage);
-            List<Match> matches = matchRepository.findFilteredMatches(pageSize, page);
             commitTransaction(session);
             return matches;
         } catch (Exception e) {
@@ -75,7 +59,7 @@ public class MatchRepositoryService {
         try {
             startTransaction(session);
             matchRepository = new MatchRepository(session);
-            int matches = matchRepository.findCountOfFilteredPlayers(filter);
+            int matches = matchRepository.findCountOfFilteredMatches(filter);
             commitTransaction(session);
             return (matches + pageSize - 1) / pageSize;
         } catch (Exception e) {

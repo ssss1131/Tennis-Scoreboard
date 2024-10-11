@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import org.hibernate.graph.GraphSemantic;
 
 import java.util.List;
+import java.util.Optional;
 
 public class MatchRepository extends BaseRepository<Long, Match> {
 
@@ -20,32 +21,23 @@ public class MatchRepository extends BaseRepository<Long, Match> {
     private static final String FIND_COUNT_WITH_FILTERS = FIND_COUNT_ALL + FILTER_BY_NAMES;
 
     public MatchRepository(EntityManager entityManager) {
-        super(Match.class, entityManager);
+        super(entityManager);
     }
 
-    public List<Match> findFilteredMatches(String filter, int pageSize, int page) {
-        String filterPattern = "%" + filter + "%";
+    public List<Match> findFilteredMatches(Optional<String> filter, int pageSize, int page) {
         EntityGraph<Match> graph = getEntityManager().createEntityGraph(Match.class);
         graph.addAttributeNodes("player1", "player2", "winner");
-        return getEntityManager().createQuery(FIND_WITH_FILTERS, Match.class)
-                .setHint(GraphSemantic.LOAD.getJakartaHintName(), graph)
-                .setParameter("filter", filterPattern)
-                .setFirstResult(page * pageSize)
-                .setMaxResults(pageSize)
-                .getResultList();
-    }
 
-    public List<Match> findFilteredMatches(int pageSize, int page) {
-        EntityGraph<Match> graph = getEntityManager().createEntityGraph(Match.class);
-        graph.addAttributeNodes("player1", "player2", "winner");
-        return getEntityManager().createQuery(FIND_ALL, Match.class)
+        var query = getEntityManager().createQuery(filter.map(f -> FIND_WITH_FILTERS).orElse(FIND_ALL), Match.class)
                 .setHint(GraphSemantic.LOAD.getJakartaHintName(), graph)
                 .setFirstResult(page * pageSize)
-                .setMaxResults(pageSize)
-                .getResultList();
+                .setMaxResults(pageSize);
+        filter.ifPresent(f -> query.setParameter("filter", "%" + f + "%"));
+
+        return query.getResultList();
     }
 
-    public int findCountOfFilteredPlayers(String filter){
+    public int findCountOfFilteredMatches(String filter) {
         String filterPattern = "%" + filter + "%";
         return getEntityManager()
                 .createQuery(FIND_COUNT_WITH_FILTERS, Long.class)
@@ -57,7 +49,7 @@ public class MatchRepository extends BaseRepository<Long, Match> {
 
     public int findCountOfAll() {
         return getEntityManager()
-                .createQuery(FIND_COUNT_ALL , Long.class)
+                .createQuery(FIND_COUNT_ALL, Long.class)
                 .getSingleResult()
                 .intValue();
 

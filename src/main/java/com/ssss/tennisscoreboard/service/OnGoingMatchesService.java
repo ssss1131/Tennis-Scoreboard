@@ -22,7 +22,7 @@ public class OnGoingMatchesService {
 
     public CurrentMatch createNewMatch(Player firstPlayer, Player secondPlayer) {
         Optional<CurrentMatch> ongoingMatchByPlayers = findOngoingMatchByPlayers(firstPlayer.getName().toLowerCase(), secondPlayer.getName().toLowerCase());
-        if(ongoingMatchByPlayers.isPresent()){
+        if (ongoingMatchByPlayers.isPresent()) {
             return ongoingMatchByPlayers.get();
         }
 
@@ -49,7 +49,7 @@ public class OnGoingMatchesService {
         CurrentMatch currentMatch = currentMatches.get(uuid);
         TennisPlayerMatchInfo firstPlayer = currentMatch.getFirstPlayer();
         TennisPlayerMatchInfo secondPlayer = currentMatch.getSecondPlayer();
-        if (firstPlayer.getScore().getSets() == 2 || secondPlayer.getScore().getSets() == 2) {
+        if (currentMatch.isMatchComplete()) {
             removeFromMap(uuid);
 
             Match match = Match.builder()
@@ -57,15 +57,10 @@ public class OnGoingMatchesService {
                     .player2(MapperUtils.mapTo(secondPlayer))
                     .build();
 
-            if (firstPlayer.getScore().getSets() == 2) {
-                match.setWinner(match.getPlayer1());
-                matchRepositoryService.createNewMatch(match);
-                return Optional.of(firstPlayer.getName());
-            }
-
-            match.setWinner(match.getPlayer2());
+            Player winner = (firstPlayer.getScore().getSets() == 2) ? match.getPlayer1() : match.getPlayer2();
+            match.setWinner(winner);
             matchRepositoryService.createNewMatch(match);
-            return Optional.of(secondPlayer.getName());
+            return Optional.of(winner.getName());
         }
         return Optional.empty();
 

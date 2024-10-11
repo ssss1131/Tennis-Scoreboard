@@ -14,6 +14,10 @@ public class AppContextListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         ServletContextListener.super.contextInitialized(sce);
         sce.getServletContext().setAttribute("pageSize", PAGE_SIZE);
+        if(PAGE_SIZE <= 0){
+            throw new IllegalStateException("PageSize must be greater than 0.");
+        }
+
     }
 
     @Override

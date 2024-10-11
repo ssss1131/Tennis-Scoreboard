@@ -24,27 +24,17 @@ public class AllMatchesController extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         matchRepositoryService = new MatchRepositoryService();
-        Object pageSizeAttr = getServletContext().getAttribute("pageSize");
-        if (pageSizeAttr == null) {
-            throw new ServletException("PageSize attribute is not initialized in ServletContext");
-        }
-        pageSize = (int) pageSizeAttr;
+        pageSize = (int) getServletContext().getAttribute("pageSize");
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String maybeFilter = req.getParameter("query");
-        String page = req.getParameter("page");
+        int page = UserInputValidator.validatePage(req.getParameter("page"));
         Optional<String> filter = UserInputValidator.validateFilter(maybeFilter);
-        List<Match> matches;
-        int allPagesCount;
-        if(filter.isPresent()){
-            matches = matchRepositoryService.getMatchesWithFilter(filter.get(), pageSize, page);
-            allPagesCount = matchRepositoryService.getAllFilteredPages(filter.get(), pageSize);
-        }else{
-            matches = matchRepositoryService.getMatchesWithFilter(pageSize, page);
-            allPagesCount = matchRepositoryService.getAllPages(pageSize);
-        }
+        List<Match> matches = matchRepositoryService.getMatchesWithFilter(filter, pageSize, page);
+        int allPagesCount = filter.map(f -> matchRepositoryService.getAllFilteredPages(f, pageSize))
+                .orElseGet(() -> matchRepositoryService.getAllPages(pageSize));
         req.setAttribute("matches", matches);
         req.setAttribute("pages", allPagesCount);
         req.getRequestDispatcher(JspPathFinder.getPath("AllMatches")).forward(req, resp);

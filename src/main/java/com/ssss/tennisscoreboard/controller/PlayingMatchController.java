@@ -51,8 +51,8 @@ public class PlayingMatchController extends HttpServlet {
         if(maybeWinner.isPresent()){
             req.setAttribute("winner", maybeWinner.get());
             req.getRequestDispatcher(JspPathFinder.getPath("Winner")).forward(req, resp);
+        }else{
+            resp.sendRedirect(String.format("%s/match-score?uuid=%s", req.getContextPath(), match.getUuid()));
         }
-        doGet(req, resp);
-
     }
 }

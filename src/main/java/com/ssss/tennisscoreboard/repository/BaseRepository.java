@@ -9,11 +9,9 @@ import java.io.Serializable;
 @Getter
 public abstract class BaseRepository<K extends Serializable, E extends BaseEntity<K>> implements Repository<K, E>{
 
-    private final Class<E> clazz;
     private final EntityManager entityManager;
 
-    public BaseRepository(Class<E> clazz,EntityManager entityManager) {
-        this.clazz = clazz;
+    public BaseRepository(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 

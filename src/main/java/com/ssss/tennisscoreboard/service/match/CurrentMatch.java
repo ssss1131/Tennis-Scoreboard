@@ -16,4 +16,9 @@ public class CurrentMatch {
 
     private TennisPlayerMatchInfo secondPlayer;
 
+
+    public boolean isMatchComplete(){
+        return firstPlayer.getScore().getSets() == 2 || secondPlayer.getScore().getSets() == 2;
+    }
+
 }
